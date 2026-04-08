@@ -45,10 +45,15 @@ def get_naver_stats(keyword: str):
     response = requests.get(f"https://naver.com{uri}", params=params, headers=headers)
     
     if response.status_code == 200:
-        data = response.json()
-        # 검색한 키워드와 가장 일치하는 첫 번째 데이터 반환
-        if data.get("keywordList"):
-            return data["keywordList"][0]
-        return {"error": "데이터를 찾을 수 없습니다."}
+        return response.json()
     else:
-        return {"error": "API 호출 실패", "detail": response.json()}
+        # json 에러가 나기 전에 원시 텍스트 응답을 직접 확인합니다.
+        return {
+            "status_code": response.status_code,
+            "error_message": response.text,  # <--- 여기서 진짜 원인이 보일 거예요
+            "sent_headers": {
+                "X-Timestamp": timestamp,
+                "X-API-KEY": ACCESS_KEY,
+                "X-Customer": CUSTOMER_ID
+            }
+        }
