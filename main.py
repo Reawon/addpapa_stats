@@ -13,7 +13,7 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"message": "Addpapa 통계 서버가 작동 중입니다!"}
+    return {"message": "Addpapa 통계 서버가 작동 중입니다!!"}
 
 @app.get("/stats/{keyword}")
 def get_stats(keyword: str):
